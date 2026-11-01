@@ -62,6 +62,67 @@ namespace MovieTicketBooking.Migrations
                             t.HasCheckConstraint("CK_Movies_DurationMinutes", "[DurationMinutes] > 0");
                         });
                 });
+
+            modelBuilder.Entity("MovieTicketBooking.Models.Screen", b =>
+                {
+                    b.Property<int>("ScreenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScreenId"));
+
+                    b.Property<string>("ScreenName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("TheatreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ScreenId");
+
+                    b.HasIndex("TheatreId", "ScreenName")
+                        .IsUnique();
+
+                    b.ToTable("Screens", (string)null);
+                });
+
+            modelBuilder.Entity("MovieTicketBooking.Models.Theatre", b =>
+                {
+                    b.Property<int>("TheatreId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TheatreId"));
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TheatreId");
+
+                    b.ToTable("Theatres");
+                });
+
+            modelBuilder.Entity("MovieTicketBooking.Models.Screen", b =>
+                {
+                    b.HasOne("MovieTicketBooking.Models.Theatre", "Theatre")
+                        .WithMany("Screens")
+                        .HasForeignKey("TheatreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Theatre");
+                });
+
+            modelBuilder.Entity("MovieTicketBooking.Models.Theatre", b =>
+                {
+                    b.Navigation("Screens");
+                });
 #pragma warning restore 612, 618
         }
     }
