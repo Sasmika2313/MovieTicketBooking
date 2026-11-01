@@ -97,15 +97,17 @@ namespace MovieTicketBooking.Migrations
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("TheatreId");
 
-                    b.ToTable("Theatres");
+                    b.ToTable("Theatres", (string)null);
                 });
 
             modelBuilder.Entity("MovieTicketBooking.Models.Screen", b =>
