@@ -53,6 +53,21 @@ namespace MovieTicketBooking.Data
                     .IsRequired();
             });
 
+            modelBuilder.Entity<Theatre>(entity =>
+            {
+                entity.ToTable("Theatres");
+
+                entity.HasKey(t => t.TheatreId);
+
+                entity.Property(t => t.Name)
+                    .HasMaxLength(150)
+                    .IsRequired();
+
+                entity.Property(t => t.Location)
+                    .HasMaxLength(200)
+                    .IsRequired();
+            });
+
             modelBuilder.Entity<Screen>(entity =>
             {
                 entity.ToTable("Screens");
