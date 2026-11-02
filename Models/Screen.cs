@@ -1,5 +1,4 @@
-﻿
-namespace MovieTicketBooking.Models
+﻿namespace MovieTicketBooking.Models
 {
     public class Screen
     {
@@ -9,7 +8,9 @@ namespace MovieTicketBooking.Models
 
         public string ScreenName { get; set; } = string.Empty;
 
-        // Navigation property
         public Theatre Theatre { get; set; } = null!;
+
+        public ICollection<Seat> Seats { get; set; } = new List<Seat>();
+        public ICollection<Show> Shows { get; set; } = new List<Show>();
     }
 }
