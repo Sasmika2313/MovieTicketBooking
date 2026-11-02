@@ -99,6 +99,13 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    await RoleSeeder.SeedAsync(
+        app.Services,
+        app.Configuration);
+}
+
+if (app.Environment.IsDevelopment())
+{
     app.MapOpenApi();
 }
 

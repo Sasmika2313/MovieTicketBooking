@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using MovieTicketBooking.DTOs.Movies;
 using MovieTicketBooking.Services.Interfaces;
+using MovieTicketBooking.Constants;
 
 namespace MovieTicketBooking.Controllers;
 
@@ -17,6 +19,7 @@ public class MoviesController : ControllerBase
     }
 
     // POST: api/movies
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpPost]
     public async Task<IActionResult> CreateMovie(
         [FromBody] CreateMovieRequest request)
@@ -60,6 +63,7 @@ public class MoviesController : ControllerBase
     }
 
     // PUT: api/movies/1
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateMovie(
         int id,
@@ -79,6 +83,7 @@ public class MoviesController : ControllerBase
     }
 
     // DELETE: api/movies/1
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteMovie(int id)
     {

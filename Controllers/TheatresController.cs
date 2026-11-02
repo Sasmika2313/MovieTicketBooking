@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using MovieTicketBooking.DTOs.Theatres;
 using MovieTicketBooking.Services.Interfaces;
+using MovieTicketBooking.Constants;
 
 namespace MovieTicketBooking.Controllers
 {
@@ -16,6 +18,8 @@ namespace MovieTicketBooking.Controllers
             _service = service;
         }
 
+        // POST: api/theatres
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> Create(
             CreateTheatreRequest request)
@@ -28,6 +32,7 @@ namespace MovieTicketBooking.Controllers
                 theatre);
         }
 
+        // GET: api/theatres
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -36,6 +41,7 @@ namespace MovieTicketBooking.Controllers
             return Ok(theatres);
         }
 
+        // GET: api/theatres/1
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -52,6 +58,8 @@ namespace MovieTicketBooking.Controllers
             return Ok(theatre);
         }
 
+        // PUT: api/theatres/1
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             int id,
@@ -70,6 +78,8 @@ namespace MovieTicketBooking.Controllers
             return Ok(theatre);
         }
 
+        // DELETE: api/theatres/1
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

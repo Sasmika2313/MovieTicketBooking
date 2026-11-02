@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using MovieTicketBooking.DTOs.Shows;
 using MovieTicketBooking.Services.Interfaces;
+using MovieTicketBooking.Constants;
 
 namespace MovieTicketBooking.Controllers
 {
@@ -16,6 +19,7 @@ namespace MovieTicketBooking.Controllers
         }
 
         // POST: api/shows
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateShow(
             [FromBody] CreateShowRequest request)
@@ -50,7 +54,6 @@ namespace MovieTicketBooking.Controllers
         }
 
         // GET: api/shows
-        // Optional filters: date, movieId, theatreId
         [HttpGet]
         public async Task<IActionResult> GetAllShows(
             [FromQuery] DateTime? date,
@@ -215,6 +218,7 @@ namespace MovieTicketBooking.Controllers
         }
 
         // PUT: api/shows/1
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateShow(
             int id,
@@ -257,6 +261,7 @@ namespace MovieTicketBooking.Controllers
         }
 
         // DELETE: api/shows/1
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteShow(int id)
         {

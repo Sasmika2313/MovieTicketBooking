@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using MovieTicketBooking.DTOs.Screens;
 using MovieTicketBooking.Services.Interfaces;
+using MovieTicketBooking.Constants;
 
 namespace MovieTicketBooking.Controllers
 {
@@ -16,6 +18,8 @@ namespace MovieTicketBooking.Controllers
             _service = service;
         }
 
+        // POST: api/screens
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> Create(
             CreateScreenRequest request)
@@ -47,6 +51,7 @@ namespace MovieTicketBooking.Controllers
                 screen);
         }
 
+        // GET: api/screens
         [HttpGet]
         public async Task<IActionResult> GetAll(
             [FromQuery] int? theatreId)
@@ -73,6 +78,7 @@ namespace MovieTicketBooking.Controllers
             return Ok(screens);
         }
 
+        // GET: api/screens/1
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -89,6 +95,7 @@ namespace MovieTicketBooking.Controllers
             return Ok(screen);
         }
 
+        // GET: api/screens/theatre/1
         [HttpGet("theatre/{theatreId:int}")]
         public async Task<IActionResult> GetByTheatre(int theatreId)
         {
@@ -114,6 +121,8 @@ namespace MovieTicketBooking.Controllers
             return Ok(screens);
         }
 
+        // PUT: api/screens/1
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             int id,
@@ -134,7 +143,6 @@ namespace MovieTicketBooking.Controllers
 
             if (screen == null)
             {
-                // Could mean screen not found or duplicate screen name.
                 var existing = await _service.GetByIdAsync(id);
 
                 if (existing == null)
@@ -154,6 +162,8 @@ namespace MovieTicketBooking.Controllers
             return Ok(screen);
         }
 
+        // DELETE: api/screens/1
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

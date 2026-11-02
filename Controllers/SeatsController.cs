@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using MovieTicketBooking.DTOs.Seats;
 using MovieTicketBooking.Services.Seats;
+using MovieTicketBooking.Constants;
 
 namespace MovieTicketBooking.Controllers
 {
@@ -15,13 +18,16 @@ namespace MovieTicketBooking.Controllers
             _service = service;
         }
 
+        // GET: api/seats
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int? screenId)
+        public async Task<IActionResult> GetAll(
+            [FromQuery] int? screenId)
         {
             var seats = await _service.GetAllAsync(screenId);
             return Ok(seats);
         }
 
+        // GET: api/seats/1
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -35,6 +41,7 @@ namespace MovieTicketBooking.Controllers
             return Ok(seat);
         }
 
+        // GET: api/seats/screen/1
         [HttpGet("screen/{screenId:int}")]
         public async Task<IActionResult> GetByScreen(int screenId)
         {
@@ -49,6 +56,8 @@ namespace MovieTicketBooking.Controllers
             }
         }
 
+        // POST: api/seats
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> Create(
             CreateSeatRequest request)
@@ -72,6 +81,8 @@ namespace MovieTicketBooking.Controllers
             }
         }
 
+        // POST: api/seats/bulk
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost("bulk")]
         public async Task<IActionResult> CreateBulk(
             BulkCreateSeatsRequest request)
@@ -98,6 +109,8 @@ namespace MovieTicketBooking.Controllers
             }
         }
 
+        // PUT: api/seats/1
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             int id,
@@ -124,6 +137,8 @@ namespace MovieTicketBooking.Controllers
             }
         }
 
+        // DELETE: api/seats/1
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

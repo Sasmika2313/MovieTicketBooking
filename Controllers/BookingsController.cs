@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MovieTicketBooking.Constants;
 using MovieTicketBooking.DTOs.Bookings;
 using MovieTicketBooking.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 
 namespace MovieTicketBooking.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = UserRoles.Customer + "," + UserRoles.Admin)]
     public class BookingsController : ControllerBase
     {
         private readonly IBookingService _bookingService;
@@ -48,7 +50,6 @@ namespace MovieTicketBooking.Controllers
         }
 
         // GET: api/bookings
-        // Optional filters: showId, status
         [HttpGet]
         public async Task<IActionResult> GetAllBookings(
             [FromQuery] int? showId,
