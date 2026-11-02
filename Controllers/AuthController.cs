@@ -32,4 +32,19 @@ public class AuthController : ControllerBase
             return Conflict(new { message = ex.Message });
         }
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequest request)
+    {
+        try
+        {
+            var result = await _userService.LoginAsync(request);
+
+            return Ok(result);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { message = ex.Message });
+        }
+    }
 }
