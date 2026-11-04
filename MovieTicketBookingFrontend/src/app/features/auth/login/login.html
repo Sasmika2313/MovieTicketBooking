@@ -1,0 +1,65 @@
+<div class="login-container">
+
+  <div class="login-card">
+
+    <div class="brand">
+      <i class="bi bi-film"></i>
+      <h2>Movie<span>Zone</span></h2>
+    </div>
+
+    <h3>Welcome Back!</h3>
+
+    <p class="subtitle">
+      Login to continue your movie experience.
+    </p>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+
+      <div class="mb-3">
+        <label>Email Address</label>
+
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="email"
+          required
+          email
+          placeholder="Enter your email">
+      </div>
+
+      <div class="mb-4">
+        <label>Password</label>
+
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="password"
+          required
+          placeholder="Enter your password">
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        [disabled]="loginForm.invalid || loading">
+
+        {{ loading ? 'Logging in...' : 'Login' }}
+
+      </button>
+
+    </form>
+
+    <p class="register-text">
+      Don't have an account?
+      <a routerLink="/register">Register here</a>
+    </p>
+
+  </div>
+
+</div>
